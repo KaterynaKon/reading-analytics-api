@@ -19,10 +19,7 @@ def get_phonetic_patterns(words: List[str]) -> List[str]:
     if long_words:
         patterns.append("long_words")
     
-    # Перевіряємо слова з "sh", "ch", "wh"
-    digraph_words = [w for w in words if re.search(r'(sh|ch|wh)', w, re.IGNORECASE)]
-    if digraph_words:
-        patterns.append("digraphs")
+  
     
     return patterns
 
@@ -52,12 +49,7 @@ def generate_recommendations(student_id: int, student_name: str, db: Session) ->
             )
             practice_words.extend([w for w in difficult_words if 'th' in w.lower()])
         
-        if "digraphs" in patterns:
-            digraph_words = [w for w in difficult_words if re.search(r'(sh|ch|wh)', w, re.IGNORECASE)]
-            recommendations.append(
-                "Practice digraphs (sh, ch, wh): " + ", ".join(digraph_words)
-            )
-            practice_words.extend(digraph_words)
+        
         
         if "long_words" in patterns:
             long_words = [w for w in difficult_words if len(w) > 6]
